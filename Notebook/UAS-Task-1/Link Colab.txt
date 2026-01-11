@@ -1,0 +1,5 @@
+Karena bertuliskan invalid untuk 3 datasetnya (tidak bisa di preview) dan hanya ingin mereview bisa melihat di link colab dibawah ini 
+
+AG_News : https://colab.research.google.com/drive/1EX1DCX82EkUz7qqSvCkgleDmBX1b6-3I?usp=sharing
+Go_Emotion : https://colab.research.google.com/drive/1zTVPkZ_D14u8hy8_mOIBEDHOF7gYmsU-?usp=sharing
+MNLI : https://colab.research.google.com/drive/1L-QtEQM6toUv3BD4VnPtAjgns43mBqqt?usp=sharing
