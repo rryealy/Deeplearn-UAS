@@ -1,196 +1,79 @@
-# Deeplearn-UAS
+# UAS Deep Learning – NLP with Transformers
 
+## Purpose of the Repository
 
+Repositori ini dibuat untuk memenuhi tugas **Ujian Akhir Semester (UAS)** mata kuliah **Deep Learning**, dengan fokus menerapkan dan mengeksplorasi model **Transformer** pada berbagai task **Natural Language Processing (NLP)**.
 
-## UAS Deep Learning – NLP with Transformers
+## Project Overview
 
+Proyek ini berisi beberapa eksperimen fine-tuning model pre-trained dari HuggingFace Transformers pada beberapa dataset NLP populer, mencakup:
 
+- Text summarization (XSUM).
+- Sequence-to-sequence question answering.
+- News topic classification (AG News).
+- Multi-label emotion classification (GoEmotions).
+- Natural Language Inference (MNLI).
 
-Repositori ini berisi kumpulan Jupyter Notebook untuk tugas akhir mata kuliah \*\*Deep Learning\*\*, dengan fokus pada berbagai task \*\*Natural Language Processing (NLP)\*\* menggunakan arsitektur \*\*Transformer\*\* dan library \*\*HuggingFace Transformers\*\*. 
+Setiap eksperimen didokumentasikan dalam Jupyter Notebook, mulai dari loading data, preprocessing, training, evaluasi, hingga demo inference.
 
+## Models and Metrics
 
+### Ringkasan Model & Metrik
 
-### Tujuan Proyek
+| Task / Notebook          | Dataset   | Jenis Model / Tipe Task              | Metrik Utama (contoh hasil)                                                 |
+|--------------------------|-----------|--------------------------------------|------------------------------------------------------------------------------|
+| `xsum-DL.ipynb`          | XSUM      | Summarization (seq2seq Transformer)  | Training loss menurun, evaluasi via `Trainer.evaluate()` di test set.       |
+| `Seq2seq-DL.ipynb`       | Custom QA | Seq2Seq QA (T5-style)                | Training loss per step (sekitar 0.25 di akhir), kualitas jawaban secara kualitatif. |
+| `Ag_News_DL-1-1.ipynb`   | AG News   | Text classification                   | Accuracy ≈ 0.94–0.95, F1 Macro ≈ 0.94–0.95 di validation.                    |
+| `Go_emotion_DL-2.ipynb`  | GoEmotions| Multi-label emotion classification    | F1 Micro naik dari ≈0.53 ke ≈0.57, F1 Macro ≈0.31→0.40, Exact Match ≈0.41→0.45. |
+| `MNLI_DL-1.ipynb`        | MNLI      | Natural Language Inference (3 class) | Accuracy ≈0.83–0.84, F1 Micro/Macro hampir setara (≈0.83–0.84).             |
 
+### Deskripsi Singkat per Notebook
 
+- **`xsum-DL.ipynb` – Text Summarization**  
+  Fine-tuning model summarization pada dataset XSUM untuk menghasilkan ringkasan satu kalimat dari teks berita, dengan monitoring training loss dan evaluasi menggunakan `Trainer.evaluate()`.
 
-Proyek ini dibuat untuk:
+- **`Seq2seq-DL.ipynb` – Sequence-to-Sequence Question Answering**  
+  Model seq2seq (T5-style) untuk menjawab pertanyaan berbasis konteks, dengan tabel training loss per step dan fungsi `ask_question(question, context)` untuk demo tanya-jawab.
 
-- Menerapkan konsep deep learning modern (Transformer) pada beberapa task NLP berbeda (summarization, question answering, text classification, emotion classification, dan natural language inference). 
+- **`Ag_News_DL-1-1.ipynb` – AG News Classification**  
+  Klasifikasi news topic AG News, menampilkan tabel per epoch (Training Loss, Validation Loss, Accuracy, F1 Macro) dan evaluasi akhir dengan metrik `eval_accuracy` dan `eval_f1_macro`.
 
-- Mengeksplorasi proses \*\*fine-tuning\*\* model pre-trained, monitoring metrik training/evaluasi, dan membuat demo inference yang dapat dicoba secara interaktif. 
+- **`Go_emotion_DL-2.ipynb` – GoEmotions Emotion Classification**  
+  Multi-label emotion classification dengan F1 Micro dan F1 Macro, analisis `trainer.state.log_history` menggunakan pandas, serta visualisasi training & validation loss dan validation F1.
 
-- Mendokumentasikan workflow end-to-end mulai dari loading dataset, preprocessing, training, evaluasi, sampai visualisasi dan penggunaan model. 
+- **`MNLI_DL-1.ipynb` – MNLI Natural Language Inference**  
+  NLI tiga kelas (entailment, neutral, contradiction) dengan tabel metrik per epoch dan demo inference untuk beberapa pasangan premise–hypothesis.
 
+## How to Navigate the Repository / Notebooks
 
+Struktur utama (diasumsikan):
 
-## Struktur Notebook
+- `Notebook/`  
+  - `xsum-DL.ipynb`  
+  - `Seq2seq-DL.ipynb`  
+  - `Ag_News_DL-1-1.ipynb`  
+  - `Go_emotion_DL-2.ipynb`  
+  - `MNLI_DL-1.ipynb`  
 
+Rekomendasi alur baca/notebook:
 
+1. Mulai dari **`Ag_News_DL-1-1.ipynb`** untuk melihat pipeline klasifikasi teks yang relatif sederhana.
+2. Lanjut ke **`Go_emotion_DL-2.ipynb`** untuk contoh multi-label classification dan visualisasi metrik.
+3. Baca **`MNLI_DL-1.ipynb`** untuk memahami task NLI dan penggunaan metrik F1 Micro/Macro.
+4. Eksplor **`Seq2seq-DL.ipynb`** untuk task question answering dengan model seq2seq serta fungsi helper inference.
+5. Terakhir, lihat **`xsum-DL.ipynb`** untuk task summarization yang lebih kompleks.
 
-Semua notebook berada di folder `Notebook/` dengan daftar sebagai berikut. 
+Untuk menjalankan:
 
+```bash
+cd Deeplearn-UAS
+pip install -r requirements.txt
+cd Notebook
+jupyter notebook
 
 
-\### 1. `xsum-DL.ipynb` – Text Summarization (XSUM)
-
-
-
-Notebook ini melakukan fine-tuning model summarization pada dataset \*\*XSUM\*\* untuk menghasilkan ringkasan satu kalimat dari artikel berita. 
-
-
-
-Fitur utama:
-
-- Menggunakan model dan tokenizer dari HuggingFace untuk abstractive summarization. 
-
-- Training dengan `Trainer` dan menampilkan ringkasan training menggunakan objek `TrainOutput` yang berisi `global\_step`, `training\_loss`, `train\_runtime`, dan `total\_flos`. 
-
-- Evaluasi menggunakan `Trainer.evaluate()` di test set yang sudah di-tokenisasi (`test\_tok`) dengan konfigurasi `TrainingArguments` khusus untuk evaluasi. 
-
-
-
-### 2. `Seq2seq-DL.ipynb` – Sequence-to-Sequence Question Answering
-
-
-
-Notebook ini mengimplementasikan model \*\*sequence-to-sequence\*\* (gaya T5) untuk tugas \*\*question answering berbasis konteks\*\*. 
-
-
-
-Fitur utama:
-
-- Monitoring \*\*training loss per step\*\* dalam bentuk tabel (kolom `Step` dan `Training Loss`) hingga puluhan ribu step, serta ringkasan `TrainOutput` (misalnya `global\_step=21900`, `training\_loss≈0.254`). 
-
-- Fungsi helper `ask\_question(question, context)` yang:
-
-&nbsp;- Menggabungkan pertanyaan dan konteks ke dalam format input T5 (`"question: ... context: ..."`). 
-
-&nbsp;- Melakukan tokenisasi dan inference dengan `model.generate()` lalu melakukan decoding jawaban. \[file:12]
-
-&nbsp;- Demo tanya-jawab dengan konteks tentang \*\*Gunung Tangkuban Parahu\*\* dan pertanyaan “Di mana letak Gunung Tangkuban Parahu?”, di mana model menghasilkan jawaban “utara Kota Bandung”. 
-
-
-
-### 3. `Ag\_News\_DL-1-1.ipynb` – News Topic Classification (AG News)
-
-
-
-Notebook ini melakukan fine-tuning model klasifikasi teks pada dataset \*\*AG News\*\* untuk mengelompokkan berita ke dalam beberapa kategori topik. 
-
-
-
-Fitur utama:
-
-- Training dan evaluasi model klasifikasi dengan `Trainer`. 
-
-- Tabel metrik per epoch yang memuat:
-
-&nbsp; - `Epoch`, `Training Loss`, `Validation Loss`, `Accuracy`, dan `F1 Macro`. 
-
-&nbsp; - Contoh hasil: akurasi validasi sekitar 0.94–0.95 dengan F1 macro yang sebanding. 
-
-- Ringkasan evaluasi akhir yang memuat `eval\_loss`, `eval\_accuracy`, `eval\_f1\_macro`, `eval\_runtime`, `eval\_samples\_per\_second`, dan `eval\_steps\_per\_second` untuk epoch terbaik. 
-
-
-
-### 4. `Go\_emotion\_DL-2.ipynb` – Multi-label Emotion Classification (GoEmotions)
-
-
-
-Notebook ini melakukan fine-tuning model untuk \*\*multi-label emotion classification\*\* pada dataset \*\*GoEmotions\*\*. 
-
-
-
-Fitur utama:
-
-- Mengambil `trainer.state.log\_history` dan mengonversinya menjadi `pandas.DataFrame` (`df\_logs`) lalu memisahkan:
-
-&nbsp; - `df\_train` berisi baris dengan kolom `loss` (log training). 
-
-&nbsp; - `df\_eval` berisi baris dengan kolom `eval\_loss` (log evaluasi). 
-
-- Menambahkan kolom `step` jika belum ada, lalu memvisualisasikan:
-
-&nbsp; - Kurva \*\*Training Loss vs Validation Loss\*\* terhadap step. 
-
-&nbsp; - Kurva metrik \*\*F1 micro\*\* (`eval\_f1\_micro`) yang diperlakukan sebagai “validation accuracy”. \[file:14]
-
-- Demo inference beberapa kalimat, misalnya:
-
-&nbsp; - “I am so happy today!” → emosi dominan `joy` dengan skor sekitar 0.85. 
-
-&nbsp; - “I feel really sad and disappointed.” → emosi `sadness` dengan skor tinggi. 
-
-&nbsp; - “That was so rude and unfair.” → kombinasi `anger` dan `annoyance`. 
-
-
-
-### 5. `MNLI\_DL-1.ipynb` – Natural Language Inference (MNLI)
-
-
-
-Notebook ini melakukan fine-tuning model \*\*Natural Language Inference (NLI)\*\* pada dataset \*\*MNLI\*\*, dengan tiga kelas utama: entailment, neutral, dan contradiction. 
-
-
-
-Fitur utama:
-
-- Tabel hasil training per epoch berisi:
-
-&nbsp; - `Epoch`, `Training Loss`, `Validation Loss`, `Accuracy`, `F1 Micro`, dan `F1 Macro`. 
-
-&nbsp; - Contoh: akurasi validasi sekitar 0.83–0.84 dengan F1 yang sangat dekat. 
-
-- Ringkasan `TrainOutput` dengan `global\_step≈73632` dan `training\_loss≈0.37` serta detail throughput training. 
-
-- Pemetaan label `id2label = {0: "entailment", 1: "neutral", 2: "contradiction"}` dan demo inference pada beberapa pasangan:
-
-&nbsp; - Premise: “A man is playing a guitar.”  
-
-&nbsp;   Hypothesis: “A person is making music.” → prediksi \*\*entailment\*\*. 
-
-&nbsp; - Premise: “A man is playing a guitar.”  
-
-&nbsp;   Hypothesis: “No one is playing music.” → prediksi \*\*contradiction\*\*. 
-
-- Visualisasi dari `trainer.state.log\_history` berupa:
-
-&nbsp; - Kurva Training \& Validation Loss terhadap step. 
-
-&nbsp; - Kurva Validation Accuracy terhadap step. 
-
-
-
-## Teknologi dan Dependensi
-
-
-
-Notebook-notebook ini dibuat dan dijalankan terutama di lingkungan \*\*Google Colab\*\* dengan integrasi \*\*Weights \& Biases (wandb)\*\* untuk experiment tracking. 
-
-Dependensi utama:
-
-- Bahasa \& environment:
-
-&nbsp; - Python 3.x. 
-
-&nbsp; - Jupyter Notebook / Google Colab. 
-
-- Library machine learning \& NLP:
-
-&nbsp; - `transformers` (HuggingFace) untuk model, tokenizer, dan `Trainer`. 
-
-&nbsp; - `datasets` untuk loading dataset XSUM, AG News, GoEmotions, dan MNLI dari HuggingFace Hub. 
-
-&nbsp; - `torch` (PyTorch) sebagai backend utama untuk training model. 
-
-- Analisis \& visualisasi:
-
-&nbsp; - `pandas` untuk tabulasi dan analisis log training (`log\_history`). 
-
-&nbsp; - `matplotlib` untuk plotting kurva loss dan metrik. 
-
-- Experiment tracking:
-
-&nbsp; - `wandb` untuk menyimpan dan memantau run (terlihat dari path seperti `/content/wandb/run-...`). 
-
+Kelompok : 13
+Anggota :
+- Darryl Satria Wibowo
+- Fakhriza Bondan P.
