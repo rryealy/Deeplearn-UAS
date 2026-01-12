@@ -8,11 +8,21 @@ Repositori ini dibuat untuk memenuhi tugas **Ujian Akhir Semester (UAS)** mata k
 
 Proyek ini berisi beberapa eksperimen fine-tuning model pre-trained dari HuggingFace Transformers pada beberapa dataset NLP populer, mencakup:
 
-- Text summarization (XSUM).
-- Sequence-to-sequence question answering.
+Notebook/
+|
+|
+Notebook/Notebook-1
 - News topic classification (AG News).
 - Multi-label emotion classification (GoEmotions).
 - Natural Language Inference (MNLI).
+|
+Notebook/Notebook-2
+- Sequence-to-sequence question answering. (Seq2seq)
+|
+Notebook/Notebook-3
+- Text summarization (XSUM).
+
+
 
 Setiap eksperimen didokumentasikan dalam Jupyter Notebook, mulai dari loading data, preprocessing, training, evaluasi, hingga demo inference.
 
@@ -75,5 +85,5 @@ jupyter notebook
 
 Kelompok : 13
 Anggota :
-- Darryl Satria Wibowo
-- Fakhriza Bondan P.
+- Darryl Satria Wibowo | 1103223057
+- Fakhriza Bondan P.   | 1103223146
